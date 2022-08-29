@@ -9,8 +9,8 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom']} style={st.container}>
         <View style={{flex: 1}}>
-          <TopStatusBar />
-          <Weather />
+            <TopStatusBar />
+            <Weather />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -20,6 +20,5 @@ export default function App() {
 const st = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'blue'
   },
 });

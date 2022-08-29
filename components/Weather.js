@@ -1,53 +1,308 @@
-import React from 'react'
-import { ScrollView, View, Text, Image, StyleSheet} from 'react-native'
+import React, {useRef, useEffect} from 'react'
+import { ScrollView, View, Text, Image, ImageBackground, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
+
+const windowWidth = Dimensions.get('window').width;
+const dailyContainerWidth = (windowWidth - 20 * 4.5) / 4.5;
 
 const Weather = () => {
+
+  /**** floating animation ****/
+  const verticalValue = useRef(new Animated.Value(0)).current;
+  const float = () => {
+    Animated.loop(
+        Animated.timing(verticalValue, {
+            toValue:10,
+            duration:700,
+            easing: Easing.inOut(Easing.quad),
+            useNativeDriver: true
+        })
+    ).start();
+  }
+  useEffect(()=>{
+    float();
+    verticalValue.addListener(({value}) => {
+        if(value == 10){
+            Animated.timing(verticalValue, {
+                toValue:0,
+                duration:700,
+                easing: Easing.inOut(Easing.quad),
+                useNativeDriver: true
+            }).start();
+        }
+        if(value == 0) {
+            Animated.timing(verticalValue, {
+              toValue:10,
+              duration:700,
+              easing: Easing.inOut(Easing.quad),
+              useNativeDriver: true
+            }).start();
+        }
+    })
+  })
+
   return (
-    <ScrollView style={st.container}>
-        <View style={st.todayContainer}>
-            <Text style={st.greetings}>Good Morning</Text>
-            <Text style={st.date}>8월 22일 월요일</Text>
-            <Text style={st.date}>김포시 장기동</Text>
-            <View style={st.todayImageContainer}>
-                <Image source={require('../assets/images/w_d_rainy.png')}
-                       style={st.todayImage}
-                       resizeMode="contain" />
+    <ScrollView style={st.container}
+                onMomentumScrollEnd={(e)=>{
+                        console.log(e.nativeEvent.contentOffset.y);
+                    }       
+                }>
+        <View style={st.borderRadius}>
+            <ImageBackground source={require('../assets/images/bg_blue2.jpg')}
+                            style={st.background}>
+                <View style={st.todayContainer}>
+                    <Text style={st.greetings}>Good Morning</Text>
+                    <Text style={st.date}>8월 22일 월요일</Text>
+                    <Text style={st.date}>김포시 장기동</Text>
+                    <View style={st.todayImageContainer}>
+                        <Animated.Image source={require('../assets/images/w_d_rainy.png')}
+                            style={[st.todayImage, {
+                                    transform:[{
+                                        translateY: verticalValue
+                                    }]
+                                }
+                            ]}
+                            resizeMode="contain" />
+                    </View>
+                    <View style={st.row}>
+                        <Text style={st.temperature}>28</Text>
+                        <Text style={st.degree}>&deg;</Text>
+                    </View>
+                    
+                    <Text style={st.highLow}>30&deg; / 24&deg;</Text>
+                    <Text style={st.highLow}>feels like 30&deg;</Text>
+                    <Text style={st.description}>비가 많이 와요.</Text>
+                    
+                    <View style={st.seperator} />
+                    <View style={[st.row, {flex:1, justifyContent:'space-evenly'}]}>
+                        <View style={st.details}>
+                            <Image source={require('../assets/images/ic_uv.png')}
+                                style={st.detailsImage}
+                                resizeMode="contain" />
+                            <Text style={st.detailsText}>자외선</Text>
+                        </View>
+                        <View style={st.details}>
+                            <Image source={require('../assets/images/ic_humidity.png')}
+                                style={st.detailsImage}
+                                resizeMode="contain" />
+                            <Text style={st.detailsText}>습도</Text>
+                        </View>
+                        <View style={st.details}>
+                            <Image source={require('../assets/images/ic_wind.png')}
+                                style={st.detailsImage}
+                                resizeMode="contain" />
+                            <Text style={st.detailsText}>바람</Text>
+                        </View>
+                    </View>
+                    
+                </View>
+            </ImageBackground>
+        </View>
+
+        <ScrollView horizontal={true}
+                    showsHorizontalScrollIndicator={true}
+                    onMomentumScrollEnd={()=>{console.log('Scrolling is End')}}>
+            <View style={[st.row, st.weekly]}>
+                <View style={[st.dailyContainer, st.todayBackground]}>
+                    <Text style={[st.dailyDate, st.todayText]}>오늘</Text>
+                    <Image source={require('../assets/images/w_d_rainy.png')}
+                        style={st.dailyImage} />
+                    <Text style={[st.dailyDegree, st.todayText]}>30&deg; / 24&deg;</Text>
+                </View>
+                <View style={st.dailyContainer}>
+                    <Text style={st.dailyDate}>오늘</Text>
+                    <Image source={require('../assets/images/w_d_rainy.png')}
+                        style={st.dailyImage} />
+                    <Text style={st.dailyDegree}>30&deg; / 24&deg;</Text>
+                </View>
+                <View style={st.dailyContainer}>
+                    <Text style={st.dailyDate}>오늘</Text>
+                    <Image source={require('../assets/images/w_d_rainy.png')}
+                        style={st.dailyImage} />
+                    <Text style={st.dailyDegree}>30&deg; / 24&deg;</Text>
+                </View>
+                <View style={st.dailyContainer}>
+                    <Text style={st.dailyDate}>오늘</Text>
+                    <Image source={require('../assets/images/w_d_rainy.png')}
+                        style={st.dailyImage} />
+                    <Text style={st.dailyDegree}>30&deg; / 24&deg;</Text>
+                </View>
+                <View style={st.dailyContainer}>
+                    <Text style={st.dailyDate}>오늘</Text>
+                    <Image source={require('../assets/images/w_d_rainy.png')}
+                        style={st.dailyImage} />
+                    <Text style={st.dailyDegree}>30&deg; / 24&deg;</Text>
+                </View>
+                <View style={st.dailyContainer}>
+                    <Text style={st.dailyDate}>오늘</Text>
+                    <Image source={require('../assets/images/w_d_rainy.png')}
+                        style={st.dailyImage} />
+                    <Text style={st.dailyDegree}>30&deg; / 24&deg;</Text>
+                </View>
+                <View style={st.dailyContainer}>
+                    <Text style={st.dailyDate}>오늘</Text>
+                    <Image source={require('../assets/images/w_d_rainy.png')}
+                        style={st.dailyImage} />
+                    <Text style={st.dailyDegree}>30&deg; / 24&deg;</Text>
+                </View>
             </View>
-            <View style={st.row}>
-                <Text style={st.temperature}>28</Text>
-                <Text style={st.degree}>&deg;</Text>
+        </ScrollView>
+
+
+        <ScrollView horizontal={true}
+                    style={st.hourlyWeatherContainer}>
+            <View style={[st.row]}>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
+                <View style={st.hourlyContainer}>
+                    <Text>16:00</Text>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.hourlyWeatherImage} />
+                    <Text>25&deg;</Text>
+                    <View style={[st.row, {marginTop:5}]}>
+                        <Image source={require('../assets/images/ic_humidity_fill.png')}
+                               style={st.hourlyHumidityImage} />
+                        <Text>40%</Text>
+                    </View>
+                </View>
             </View>
-            
-            <Text style={st.highLow}>30&deg; / 24&deg;</Text>
-            <Text style={st.highLow}>feels like 30&deg;</Text>
-            <Text style={st.description}>비가 많이 와요.</Text>
-            
-            <View style={st.seperator} />
-            <View style={[st.row, {flex:1, justifyContent:'space-evenly'}]}>
-                <View style={st.details}>
-                    <Image source={require('../assets/images/w_d_rainy.png')}
-                           style={st.detailsImage}
-                           resizeMode="contain" />
-                    <Text>자외선</Text>
+        </ScrollView>
+
+        <View style={st.dustContainer}>
+            <View style={[st.row, {justifyContent:'flex-start'}]}>
+                <View style={[st.row, {width:'50%'}]}>
+                    <View style={st.dustBar}>
+                        <View style={st.dustBarGauge} />
+                    </View>
+                    <View>
+                        <Text>미세먼지</Text>
+                        <Text>보통</Text>
+                        <Text>31&#181;m/m&sup2;</Text>
+                    </View>
                 </View>
-                <View style={st.details}>
-                    <Image source={require('../assets/images/w_d_rainy.png')}
-                           style={st.detailsImage}
-                           resizeMode="contain" />
-                    <Text>습도</Text>
-                </View>
-                <View style={st.details}>
-                    <Image source={require('../assets/images/w_d_rainy.png')}
-                           style={st.detailsImage}
-                           resizeMode="contain" />
-                    <Text>바람</Text>
-                </View>
+                <View style={st.row}>
+                    <View style={st.finedustBar}>
+                        <View style={st.finedustBarGauge} />
+                    </View>
+                    <View>
+                        <Text>초미세먼지</Text>
+                        <Text>나쁨</Text>
+                        <Text>45&#181;m/m&sup2;</Text>
+                    </View>
+                </View>                
             </View>
         </View>
 
-        <View>
-            <Text>일주일 날씨</Text>
-        </View>
+        <ScrollView>
+            <Text>일주일 간 상세 날씨 container</Text>
+        </ScrollView>
     </ScrollView>
   )
 }
@@ -55,6 +310,19 @@ const Weather = () => {
 const st = StyleSheet.create({
     container:{
         flex:1,
+    },
+
+    /** 하루 상세 날씨 **/
+    borderRadius:{
+        marginTop:10,
+        marginHorizontal:10,
+        borderRadius:10,
+        overflow: 'hidden',
+        elevation:3
+    },
+    background:{
+        flex:1,
+        height:'100%',
     },
     todayContainer:{
         alignItems:'center',
@@ -78,7 +346,9 @@ const st = StyleSheet.create({
     },
     todayImage:{
         width:'100%',
-        height:'100%'
+        height:'100%',
+        position:'absolute',
+        top:0
     },
     temperature:{
         color:'#ffffff', //그라데이션 넣자
@@ -105,21 +375,122 @@ const st = StyleSheet.create({
         width:'85%',
         borderTopWidth:1,
         borderTopColor:'#999999',
-        marginVertical:15
+        marginTop:15,
+        marginBottom:5
     },
     details:{
-        width:90,
-        height:90
+        width:110,
+        height:110,
+        justifyContent:'center',
+        alignItems:'center',
+        marginTop:5,
+        marginBottom:10
     },
     detailsImage:{
-        width:'100%',
-        height:'100%'
+        width:'70%',
+        height:'70%',
+        marginBottom:5
+    },
+    detailsText:{
+       color:'#ffffff' 
     },
 
-    row:{
+    /** 일주일 날씨 **/
+    weekly:{
+        justifyContent:'space-evenly',
+        marginVertical:20,
+    },
+    dailyContainer:{
+        justifyContent:'center',
+        alignItems:'center',
+        width: dailyContainerWidth,
+        height:130,
+        borderRadius:20,
+        backgroundColor:'#ffffff',
+        elevation:3,
+        marginHorizontal:10
+    },
+    dailyDate:{},
+    dailyImage:{
+        width:'70%',
+        height:'35%',
+        marginVertical:10
+    },
+    todayBackground:{
+        backgroundColor:'dodgerblue'
+    },
+    todayText:{
+        color:'#ffffff'
+    },
+
+    /** 하루날씨 시간별 그래프 */
+    hourlyWeatherContainer:{
+        marginHorizontal:10,
+        marginBottom:20,
+        paddingVertical:15,
+        paddingHorizontal:10,
+        backgroundColor:'#ededed',
+        borderRadius:20,
+    },
+    hourlyContainer:{
+        justifyContent:'center',
+        alignItems:'center',
+        marginHorizontal:6
+    },
+    hourlyWeatherImage:{
+        width:50,
+        height:50
+    },
+    hourlyHumidityImage:{
+        width:20,
+        height:20
+    },
+
+    /** 미세먼지 농도 **/
+    dustContainer:{
+        marginHorizontal:10,
+        marginBottom:20,
+        paddingVertical:15,
+        paddingHorizontal:25,
+        backgroundColor:'#ededed',
+        borderRadius:20
+    },
+    dustBar:{
+        width:10, 
+        height:50, 
+        backgroundColor:'green',
+        marginRight:15,
+        borderRadius:5,
+        opacity:0.5
+    },
+    dustBarGauge:{
+        position:'absolute',
+        bottom:0,
+        backgroundColor:'green',
+        width:10,
+        height:31/100*50, //미세먼지 농도
+        borderRadius:5
+    },
+    finedustBar:{
+        width:10, 
+        height:50, 
+        backgroundColor:'orange',
+        marginRight:15,
+        borderRadius:5,
+        opacity:0.5
+    },
+    finedustBarGauge:{
+        position:'absolute',
+        bottom:0,
+        backgroundColor:'orange',
+        width:10,
+        height:45/100*50, //미세먼지 농도
+        borderRadius:5
+    }
+
+    ,row:{
         flexDirection:'row',
-        // justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
     }
 })
 
