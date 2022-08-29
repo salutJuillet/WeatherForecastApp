@@ -3,7 +3,7 @@ import { ScrollView, View, Text, Image, ImageBackground, StyleSheet, Dimensions,
 
 const windowWidth = Dimensions.get('window').width;
 const dailyContainerWidth = (windowWidth - 20 * 4.5) / 4.5;
-const hourlyScrollEnd = windowWidth - 10;
+
 
 const Weather = () => {
 
@@ -46,7 +46,13 @@ const Weather = () => {
                 onMomentumScrollEnd={(e)=>{
                         console.log(e.nativeEvent.contentOffset.y);
                     }       
-                }>
+                }
+                // onScrollEndDrag={(e)=>{
+                //     if(e.nativeEvent.contentOffset.y > 20 && e.nativeEvent.contentOffset.y<157.42857360839844){
+                //         e.target.scrollTo({animated:true, y:157.42857360839844})
+                //     }
+                // }}
+                >
         <View style={st.borderRadius}>
             <ImageBackground source={require('../assets/images/bg_blue2.jpg')}
                             style={st.background}>

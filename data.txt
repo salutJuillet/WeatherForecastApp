@@ -2,6 +2,8 @@ scroll offset
 y: 157.42857360839844 (첫 번째 swipe up)
 두 번째 swipe up 때, simpleWeekly가 제일 상단으로, today의 높이가 줄어들고, container의 상단이 내려옴.
 
+simpleWeekly의 스크롤 end 213.7142791748047 - margin 10
+
 
 미세먼지/초미세먼지 등급 (좋음-보통-나쁨-매우나쁨) (파랑-초록-노랑-빨강)
 0~30 제곱미터 당 마이크로그람
