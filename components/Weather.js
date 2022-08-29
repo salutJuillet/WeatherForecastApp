@@ -3,6 +3,7 @@ import { ScrollView, View, Text, Image, ImageBackground, StyleSheet, Dimensions,
 
 const windowWidth = Dimensions.get('window').width;
 const dailyContainerWidth = (windowWidth - 20 * 4.5) / 4.5;
+const hourlyScrollEnd = windowWidth - 10;
 
 const Weather = () => {
 
@@ -50,9 +51,9 @@ const Weather = () => {
             <ImageBackground source={require('../assets/images/bg_blue2.jpg')}
                             style={st.background}>
                 <View style={st.todayContainer}>
-                    <Text style={st.greetings}>Good Morning</Text>
-                    <Text style={st.date}>8월 22일 월요일</Text>
-                    <Text style={st.date}>김포시 장기동</Text>
+                    <Text style={[st.greetings, st.textShadow]}>Good Morning</Text>
+                    <Text style={[st.date, st.textShadowLight]}>8월 22일 월요일</Text>
+                    <Text style={[st.date, st.textShadowLight]}>김포시 장기동</Text>
                     <View style={st.todayImageContainer}>
                         <Animated.Image source={require('../assets/images/w_d_rainy.png')}
                             style={[st.todayImage, {
@@ -64,33 +65,33 @@ const Weather = () => {
                             resizeMode="contain" />
                     </View>
                     <View style={st.row}>
-                        <Text style={st.temperature}>28</Text>
-                        <Text style={st.degree}>&deg;</Text>
+                        <Text style={[st.temperature, st.textShadow]}>28</Text>
+                        <Text style={[st.degree, st.textShadow]}>&deg;</Text>
                     </View>
                     
-                    <Text style={st.highLow}>30&deg; / 24&deg;</Text>
-                    <Text style={st.highLow}>feels like 30&deg;</Text>
-                    <Text style={st.description}>비가 많이 와요.</Text>
+                    <Text style={[st.highLow, st.textShadowLight]}>30&deg; / 24&deg;</Text>
+                    <Text style={[st.highLow, st.textShadowLight]}>feels like 30&deg;</Text>
+                    <Text style={[st.description, st.textShadow]}>비가 많이 와요.</Text>
                     
                     <View style={st.seperator} />
-                    <View style={[st.row, {flex:1, justifyContent:'space-evenly'}]}>
+                    <View style={[st.row, st.detailsContainer]}>
                         <View style={st.details}>
                             <Image source={require('../assets/images/ic_uv.png')}
-                                style={st.detailsImage}
-                                resizeMode="contain" />
-                            <Text style={st.detailsText}>자외선</Text>
+                                   style={st.detailsImage}
+                                   resizeMode="contain" />
+                            <Text style={[st.detailsText, st.textShadow]}>UV 5</Text>
                         </View>
                         <View style={st.details}>
                             <Image source={require('../assets/images/ic_humidity.png')}
-                                style={st.detailsImage}
-                                resizeMode="contain" />
-                            <Text style={st.detailsText}>습도</Text>
+                                   style={st.detailsImage}
+                                   resizeMode="contain" />
+                            <Text style={[st.detailsText, st.textShadow]}>71%</Text>
                         </View>
                         <View style={st.details}>
                             <Image source={require('../assets/images/ic_wind.png')}
-                                style={st.detailsImage}
-                                resizeMode="contain" />
-                            <Text style={st.detailsText}>바람</Text>
+                                   style={st.detailsImage}
+                                   resizeMode="contain" />
+                            <Text style={[st.detailsText, st.textShadow]}>2m/s</Text>
                         </View>
                     </View>
                     
@@ -100,7 +101,10 @@ const Weather = () => {
 
         <ScrollView horizontal={true}
                     showsHorizontalScrollIndicator={true}
-                    onMomentumScrollEnd={()=>{console.log('Scrolling is End')}}>
+                    onMomentumScrollEnd={(e)=>{
+                        console.log(e.nativeEvent.contentOffset.x);
+                    }       
+                }>
             <View style={[st.row, st.weekly]}>
                 <View style={[st.dailyContainer, st.todayBackground]}>
                     <Text style={[st.dailyDate, st.todayText]}>오늘</Text>
@@ -150,7 +154,7 @@ const Weather = () => {
 
         <ScrollView horizontal={true}
                     style={st.hourlyWeatherContainer}>
-            <View style={[st.row]}>
+            <View style={[st.row, {marginRight:13}]}>
                 <View style={st.hourlyContainer}>
                     <Text>16:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
@@ -163,7 +167,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>17:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -174,7 +178,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>18:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -185,7 +189,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>19:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -196,7 +200,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>20:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -207,7 +211,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>21:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -218,7 +222,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>22:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -229,7 +233,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>23:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -240,7 +244,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>24:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -251,7 +255,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>01:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -262,7 +266,7 @@ const Weather = () => {
                     </View>
                 </View>
                 <View style={st.hourlyContainer}>
-                    <Text>16:00</Text>
+                    <Text>02:00</Text>
                     <Image source={require('../assets/images/ic_hr_littleRainy.png')}
                            style={st.hourlyWeatherImage} />
                     <Text>25&deg;</Text>
@@ -310,12 +314,12 @@ const Weather = () => {
 const st = StyleSheet.create({
     container:{
         flex:1,
+        paddingHorizontal:10
     },
 
     /** 하루 상세 날씨 **/
     borderRadius:{
         marginTop:10,
-        marginHorizontal:10,
         borderRadius:10,
         overflow: 'hidden',
         elevation:3
@@ -358,7 +362,10 @@ const st = StyleSheet.create({
     degree:{
         color:'#ffffff',
         fontWeight:'bold',
-        fontSize:40
+        fontSize:50,
+        position:'absolute',
+        top:10,
+        right:-20
     },
     highLow:{
         color:'#ffffff',
@@ -374,9 +381,16 @@ const st = StyleSheet.create({
     seperator:{
         width:'85%',
         borderTopWidth:1,
-        borderTopColor:'#999999',
+        borderTopColor:'#ffffff',
         marginTop:15,
         marginBottom:5
+    },
+    detailsContainer:{
+        flex:1,                    
+        justifyContent:'space-evenly',
+        // backgroundColor:'rgba(255,255,255,0.5)',
+        borderRadius:10,
+        width:'90%',
     },
     details:{
         width:110,
@@ -389,10 +403,12 @@ const st = StyleSheet.create({
     detailsImage:{
         width:'70%',
         height:'70%',
-        marginBottom:5
+        marginBottom:5,
     },
     detailsText:{
-       color:'#ffffff' 
+       color:'#ffffff',
+       fontSize:16,
+       fontWeight:'bold'
     },
 
     /** 일주일 날씨 **/
@@ -408,7 +424,7 @@ const st = StyleSheet.create({
         borderRadius:20,
         backgroundColor:'#ffffff',
         elevation:3,
-        marginHorizontal:10
+        marginRight:15
     },
     dailyDate:{},
     dailyImage:{
@@ -425,17 +441,17 @@ const st = StyleSheet.create({
 
     /** 하루날씨 시간별 그래프 */
     hourlyWeatherContainer:{
-        marginHorizontal:10,
         marginBottom:20,
         paddingVertical:15,
         paddingHorizontal:10,
         backgroundColor:'#ededed',
         borderRadius:20,
+        elevation:3
     },
     hourlyContainer:{
         justifyContent:'center',
         alignItems:'center',
-        marginHorizontal:6
+        marginRight:10
     },
     hourlyWeatherImage:{
         width:50,
@@ -443,17 +459,18 @@ const st = StyleSheet.create({
     },
     hourlyHumidityImage:{
         width:20,
-        height:20
+        height:20,
+        marginRight:-2
     },
 
     /** 미세먼지 농도 **/
     dustContainer:{
-        marginHorizontal:10,
         marginBottom:20,
         paddingVertical:15,
         paddingHorizontal:25,
         backgroundColor:'#ededed',
-        borderRadius:20
+        borderRadius:20,
+        elevation:3
     },
     dustBar:{
         width:10, 
@@ -491,6 +508,16 @@ const st = StyleSheet.create({
     ,row:{
         flexDirection:'row',
         alignItems:'center',
+    },
+    textShadow:{
+        textShadowColor:'rgba(0,0,0,0.5)',
+        textShadowOffset: {width:1, height:1},
+        textShadowRadius:10
+    },
+    textShadowLight:{
+        textShadowColor:'rgba(0,0,0,0.5)',
+        textShadowOffset: {width:1, height:1},
+        textShadowRadius:2
     }
 })
 
