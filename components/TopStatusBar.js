@@ -18,7 +18,7 @@ const TopStatusBar = () => {
 
 const st = StyleSheet.create({
     statusbar:{
-        backgroundColor:'#ffffff',
+        backgroundColor:'#fefefe',
     },
 })
 

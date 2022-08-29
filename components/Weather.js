@@ -100,12 +100,11 @@ const Weather = () => {
         </View>
 
         <ScrollView horizontal={true}
-                    showsHorizontalScrollIndicator={true}
                     onMomentumScrollEnd={(e)=>{
                         console.log(e.nativeEvent.contentOffset.x);
                     }       
                 }>
-            <View style={[st.row, st.weekly]}>
+            <View style={[st.row, st.simpleWeekly]}>
                 <View style={[st.dailyContainer, st.todayBackground]}>
                     <Text style={[st.dailyDate, st.todayText]}>오늘</Text>
                     <Image source={require('../assets/images/w_d_rainy.png')}
@@ -286,7 +285,7 @@ const Weather = () => {
                         <View style={st.dustBarGauge} />
                     </View>
                     <View>
-                        <Text>미세먼지</Text>
+                        <Text style={st.dustText}>미세먼지</Text>
                         <Text>보통</Text>
                         <Text>31&#181;m/m&sup2;</Text>
                     </View>
@@ -296,7 +295,7 @@ const Weather = () => {
                         <View style={st.finedustBarGauge} />
                     </View>
                     <View>
-                        <Text>초미세먼지</Text>
+                        <Text style={st.dustText}>초미세먼지</Text>
                         <Text>나쁨</Text>
                         <Text>45&#181;m/m&sup2;</Text>
                     </View>
@@ -305,16 +304,101 @@ const Weather = () => {
         </View>
 
         <ScrollView>
-            <Text>일주일 간 상세 날씨 container</Text>
+            <View style={[st.row, st.weeklyContainer]}>
+                <Text style={st.weeklyDate}>8월 22일 월요일</Text>
+                <View style={[st.row, {height:37, marginRight:-30}]}>
+                    <Text style={st.weeklyTemperature}>30&deg;</Text>
+                    <Text style={[st.weeklyTemperature, {fontSize:18, alignSelf:'flex-end'}]}>/24&deg;</Text>
+                </View>
+                <View style={st.weeklyImageContainer}>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.weeklyImage} />
+                    <Text style={st.weeklyDescription}>조금 비</Text>
+                </View>
+            </View>
+            <View style={[st.row, st.weeklyContainer]}>
+                <Text style={st.weeklyDate}>8월 23일 화요일</Text>
+                <View style={[st.row, {height:37, marginRight:-30}]}>
+                    <Text style={st.weeklyTemperature}>30&deg;</Text>
+                    <Text style={[st.weeklyTemperature, {fontSize:18, alignSelf:'flex-end'}]}>/24&deg;</Text>
+                </View>
+                <View style={st.weeklyImageContainer}>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.weeklyImage} />
+                    <Text style={st.weeklyDescription}>조금 비</Text>
+                </View>
+            </View>
+            <View style={[st.row, st.weeklyContainer]}>
+                <Text style={st.weeklyDate}>8월 24일 수요일</Text>
+                <View style={[st.row, {height:37, marginRight:-30}]}>
+                    <Text style={st.weeklyTemperature}>30&deg;</Text>
+                    <Text style={[st.weeklyTemperature, {fontSize:18, alignSelf:'flex-end'}]}>/24&deg;</Text>
+                </View>
+                <View style={st.weeklyImageContainer}>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.weeklyImage} />
+                    <Text style={st.weeklyDescription}>조금 비</Text>
+                </View>
+            </View>
+            <View style={[st.row, st.weeklyContainer]}>
+                <Text style={st.weeklyDate}>8월 25일 목요일</Text>
+                <View style={[st.row, {height:37, marginRight:-30}]}>
+                    <Text style={st.weeklyTemperature}>30&deg;</Text>
+                    <Text style={[st.weeklyTemperature, {fontSize:18, alignSelf:'flex-end'}]}>/24&deg;</Text>
+                </View>
+                <View style={st.weeklyImageContainer}>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.weeklyImage} />
+                    <Text style={st.weeklyDescription}>조금 비</Text>
+                </View>
+            </View>
+            <View style={[st.row, st.weeklyContainer]}>
+                <Text style={st.weeklyDate}>8월 26일 금요일</Text>
+                <View style={[st.row, {height:37, marginRight:-30}]}>
+                    <Text style={st.weeklyTemperature}>30&deg;</Text>
+                    <Text style={[st.weeklyTemperature, {fontSize:18, alignSelf:'flex-end'}]}>/24&deg;</Text>
+                </View>
+                <View style={st.weeklyImageContainer}>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.weeklyImage} />
+                    <Text style={st.weeklyDescription}>조금 비</Text>
+                </View>
+            </View>
+            <View style={[st.row, st.weeklyContainer]}>
+                <Text style={st.weeklyDate}>8월 27일 토요일</Text>
+                <View style={[st.row, {height:37, marginRight:-30}]}>
+                    <Text style={st.weeklyTemperature}>30&deg;</Text>
+                    <Text style={[st.weeklyTemperature, {fontSize:18, alignSelf:'flex-end'}]}>/24&deg;</Text>
+                </View>
+                <View style={st.weeklyImageContainer}>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.weeklyImage} />
+                    <Text style={st.weeklyDescription}>조금 비</Text>
+                </View>
+            </View>
+            <View style={[st.row, st.weeklyContainer]}>
+                <Text style={st.weeklyDate}>8월 28일 일요일</Text>
+                <View style={[st.row, {height:37, marginRight:-30}]}>
+                    <Text style={st.weeklyTemperature}>30&deg;</Text>
+                    <Text style={[st.weeklyTemperature, {fontSize:18, alignSelf:'flex-end'}]}>/24&deg;</Text>
+                </View>
+                <View style={st.weeklyImageContainer}>
+                    <Image source={require('../assets/images/ic_hr_littleRainy.png')}
+                           style={st.weeklyImage} />
+                    <Text style={st.weeklyDescription}>조금 비</Text>
+                </View>
+            </View>
         </ScrollView>
     </ScrollView>
   )
 }
 
+
 const st = StyleSheet.create({
     container:{
         flex:1,
-        paddingHorizontal:10
+        paddingHorizontal:10,
+        backgroundColor:'#fefefe'
     },
 
     /** 하루 상세 날씨 **/
@@ -383,7 +467,7 @@ const st = StyleSheet.create({
         borderTopWidth:1,
         borderTopColor:'#ffffff',
         marginTop:15,
-        marginBottom:5
+        marginBottom:0
     },
     detailsContainer:{
         flex:1,                    
@@ -403,7 +487,6 @@ const st = StyleSheet.create({
     detailsImage:{
         width:'70%',
         height:'70%',
-        marginBottom:5,
     },
     detailsText:{
        color:'#ffffff',
@@ -412,7 +495,7 @@ const st = StyleSheet.create({
     },
 
     /** 일주일 날씨 **/
-    weekly:{
+    simpleWeekly:{
         justifyContent:'space-evenly',
         marginVertical:20,
     },
@@ -444,7 +527,7 @@ const st = StyleSheet.create({
         marginBottom:20,
         paddingVertical:15,
         paddingHorizontal:10,
-        backgroundColor:'#ededed',
+        backgroundColor:'#ffffff',
         borderRadius:20,
         elevation:3
     },
@@ -468,13 +551,13 @@ const st = StyleSheet.create({
         marginBottom:20,
         paddingVertical:15,
         paddingHorizontal:25,
-        backgroundColor:'#ededed',
+        backgroundColor:'#ffffff',
         borderRadius:20,
         elevation:3
     },
     dustBar:{
         width:10, 
-        height:50, 
+        height:60, 
         backgroundColor:'green',
         marginRight:15,
         borderRadius:5,
@@ -485,12 +568,12 @@ const st = StyleSheet.create({
         bottom:0,
         backgroundColor:'green',
         width:10,
-        height:31/100*50, //미세먼지 농도
+        height:31/100*60, //미세먼지 농도
         borderRadius:5
     },
     finedustBar:{
         width:10, 
-        height:50, 
+        height:60, 
         backgroundColor:'orange',
         marginRight:15,
         borderRadius:5,
@@ -501,8 +584,52 @@ const st = StyleSheet.create({
         bottom:0,
         backgroundColor:'orange',
         width:10,
-        height:45/100*50, //미세먼지 농도
+        height:45/100*60, //미세먼지 농도
         borderRadius:5
+    },
+    dustText:{
+        marginBottom:10,
+        color:'#999999'
+    },
+
+    /** 주간 날씨 **/
+    weeklyWeatherContainer:{
+        marginBottom:20
+    },
+    weeklyContainer:{
+        backgroundColor:'#ffffff',
+        borderRadius:20,
+        elevation:3,
+        marginBottom:15,
+        paddingHorizontal:15,
+        justifyContent:'space-between',
+        alignItems:'center'
+    },
+    weeklyDate:{
+        fontSize:18,
+        color:'#00aced',
+        fontWeight:'bold',
+        marginRight:30
+    },
+    weeklyTemperature:{
+        fontSize:28,
+        marginRight:0,
+        color:'#a1a1a1'
+    },
+    weeklyImageContainer:{
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    weeklyImage:{
+        width:80,
+        height:60
+    },
+    weeklyDescription:{
+        fontSize:16,
+        marginBottom:5,
+        marginTop:-5,
+        color:'#00aced',
+        fontWeight:'bold'
     }
 
     ,row:{

@@ -20,5 +20,6 @@ export default function App() {
 const st = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'dodgerblue'
   },
 });
