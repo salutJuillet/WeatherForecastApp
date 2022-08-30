@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react'
+import React, {useRef, useEffect, useState} from 'react'
 import { ScrollView, View, Text, Image, ImageBackground, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
 
 const windowWidth = Dimensions.get('window').width;
@@ -41,17 +41,61 @@ const Weather = () => {
     })
   })
 
+  /**** scroll to ****/
+//   const scrollYPosition = useRef(new Animated.Value(0)).current;
+  const sectionYPosition = 157.42857360839844;
+//   const moveScroll = () => {
+//     Animated.timing(scrollYPosition, {
+//         toValue: sectionYPosition,
+//         duration:500,
+//         easing: Easing.out(Easing.bounce),
+//         useNativeDriver: true
+//     }).start();
+//   }
+//   useEffect(()=>{
+//     scrollYPosition.addListener(({value})=>{
+//         if(value > 0 && value < sectionYPosition){
+//             Animated.timing(scrollYPosition, {
+//                 toValue: sectionYPosition,
+//                 duration:500,
+//                 easing: Easing.out(Easing.bounce),
+//                 useNativeDriver: true
+//             }).start();
+//         }
+//     })
+//   })
+
+//   const aboutSection = useRef(null);
+//   const scrollDown = (e) => {
+//     e.target.scrollTo({
+//         top: 157.42857360839844,
+//         behavior:'smooth'
+//     })
+//   }
+  const [offset, setOffset] = useState(0);
+  const moveScroll = (e) => {
+    // let currentOffsetY = e.nativeEvent.contentOffset.y;
+    let direction = e.nativeEvent.contentOffset.y > offset ? 'down' : 'up';
+    setOffset(e.nativeEvent.contentOffset.y);
+    // console.log(direction);
+    if(direction === 'down'){
+        if(e.nativeEvent.contentOffset.y > 0 && e.nativeEvent.contentOffset.y < sectionYPosition){
+            e.target.scrollTo({y:sectionYPosition, behavior:'smooth'})
+        }
+    }else if(direction === 'up'){
+        if(e.nativeEvent.contentOffset.y > 0 && e.nativeEvent.contentOffset.y < sectionYPosition){
+            e.target.scrollTo({y:0, behavior:'smooth'})
+        }
+    }
+  }
+
   return (
     <ScrollView style={st.container}
                 onMomentumScrollEnd={(e)=>{
                         console.log(e.nativeEvent.contentOffset.y);
                     }       
                 }
-                // onScrollEndDrag={(e)=>{
-                //     if(e.nativeEvent.contentOffset.y > 20 && e.nativeEvent.contentOffset.y<157.42857360839844){
-                //         e.target.scrollTo({animated:true, y:157.42857360839844})
-                //     }
-                // }}
+                onScroll={(e)=>{moveScroll(e)}}
                 >
         <View style={st.borderRadius}>
             <ImageBackground source={require('../assets/images/bg_blue2.jpg')}
