@@ -1,13 +1,44 @@
 import React, {useRef, useEffect, useState} from 'react'
 import { ScrollView, View,  Image, ImageBackground, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
 import Text from './DefaultText'
+import axios from 'axios'
 
 
 const windowWidth = Dimensions.get('window').width;
 const dailyContainerWidth = (windowWidth - 20 * 4.5) / 4.5;
 
+let now = new Date();
+  const REACT_APP_API_KEY = 'kAQ2I%2FEj5gPadZwjV4AgwijIAjeDskDyWsY1YiTOBl%2B44SROzB9ltCq6d2%2FOWMjwHCjGcJHCg8fPSLiHFtyajA%3D%3D';
+  const url = 'http://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList';
 
 const Weather = () => {
+
+  const getWeather = async () => {
+    try{
+        await axios({
+            method:'get',
+            url: url,
+            params:{
+                serviceKey: REACT_APP_API_KEY,
+                dataCd: 'ASOS',
+                daeCd: 'DAY',
+                startDt: new Date(),
+                endDt: new Date(now.setDate(now.getDate() + 10)),
+                stnlds: 108
+            }
+        })
+        .then(response => {
+            console.log(response)
+        })
+    }catch(err){
+        console.log(err)
+    }
+  }
+  useEffect(()=> {
+    getWeather();
+  }, [])
+
+  
 
   /**** floating animation ****/
   const verticalValue = useRef(new Animated.Value(0)).current;
