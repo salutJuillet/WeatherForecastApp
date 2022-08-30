@@ -1,11 +1,14 @@
 import React, {useRef, useEffect, useState} from 'react'
-import { ScrollView, View, Text, Image, ImageBackground, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
+import { ScrollView, View,  Image, ImageBackground, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
+import Text from './DefaultText'
+
 
 const windowWidth = Dimensions.get('window').width;
 const dailyContainerWidth = (windowWidth - 20 * 4.5) / 4.5;
 
 
 const Weather = () => {
+
 
   /**** floating animation ****/
   const verticalValue = useRef(new Animated.Value(0)).current;
@@ -465,16 +468,14 @@ const st = StyleSheet.create({
     todayContainer:{
         alignItems:'center',
         justifyContent:'center',
-        paddingTop:20
+        paddingTop:20,
     },
     greetings:{
         color:'#ffffff',
-        fontWeight:'bold',
-        fontSize:50
+        fontSize:50,
     },
     date:{
-        color:'#ffffff',
-        opacity:0.7,
+        color:'#efefef',
         fontSize:18
     },
     todayImageContainer:{
@@ -490,21 +491,18 @@ const st = StyleSheet.create({
     },
     temperature:{
         color:'#ffffff', //그라데이션 넣자
-        fontWeight:'bold',
-        fontSize:100
+        fontSize:100,
     },
     degree:{
         color:'#ffffff',
-        fontWeight:'bold',
         fontSize:50,
         position:'absolute',
         top:10,
-        right:-20
+        right:-20,
     },
     highLow:{
-        color:'#ffffff',
-        opacity:0.7,
-        fontSize:18
+        color:'#efefef',
+        fontSize:18,
     },
     description:{
         color:'#ffffff', //그라데이션 넣자
@@ -658,7 +656,7 @@ const st = StyleSheet.create({
     weeklyDate:{
         fontSize:18,
         color:'#00aced',
-        fontWeight:'bold',
+        // fontWeight:'bold',
         marginRight:30
     },
     weeklyTemperature:{
