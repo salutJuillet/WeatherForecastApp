@@ -9,7 +9,6 @@ const dailyContainerWidth = (windowWidth - 20 * 4.5) / 4.5;
 
 const Weather = () => {
 
-
   /**** floating animation ****/
   const verticalValue = useRef(new Animated.Value(0)).current;
   const float = () => {
@@ -46,7 +45,7 @@ const Weather = () => {
 
   /**** scroll to ****/
 //   const scrollYPosition = useRef(new Animated.Value(0)).current;
-  const sectionYPosition = 157.42857360839844;
+  const sectionYPosition = 132;
 //   const moveScroll = () => {
 //     Animated.timing(scrollYPosition, {
 //         toValue: sectionYPosition,
@@ -92,6 +91,28 @@ const Weather = () => {
     }
   }
 
+  /**** simpleWeekly moves to top ****/
+  const top = useRef(new Animated.Value(0)).current;
+  const moveToTop = () => {
+    Animated.timing(top, {
+        toValue: -10,
+        duration: 500,
+        easing:Easing.out(Easing.quad),
+        useNativeDriver: true
+    }).start()
+  }
+  
+//   const simpleWeeklyToTop = [];
+//   if(offset > sectionYPosition){
+//         useEffect(()=>{
+        
+//         simpleWeeklyToTop.push(st.simpleWeeklyContainer);
+//         moveToTop();
+//     }, [])
+//   }
+  
+
+
   return (
     <ScrollView style={st.container}
                 onMomentumScrollEnd={(e)=>{
@@ -101,7 +122,7 @@ const Weather = () => {
                 onScroll={(e)=>{moveScroll(e)}}
                 >
         <View style={st.borderRadius}>
-            <ImageBackground source={require('../assets/images/bg_blue2.jpg')}
+            <ImageBackground source={require('../assets/images/bg_d_cloudy.jpg')}
                             style={st.background}>
                 <View style={st.todayContainer}>
                     <Text style={[st.greetings, st.textShadow]}>Good Morning</Text>
@@ -152,11 +173,13 @@ const Weather = () => {
             </ImageBackground>
         </View>
 
-        <ScrollView horizontal={true}
+        <Animated.ScrollView horizontal={true}
+                    showsHScrollIndicator={false}
                     onMomentumScrollEnd={(e)=>{
                         console.log(e.nativeEvent.contentOffset.x);
-                    }       
-                }>
+                    }}
+                    // style={[simpleWeeklyToTop, {top:top}]}       
+                >
             <View style={[st.row, st.simpleWeekly]}>
                 <View style={[st.dailyContainer, st.todayBackground]}>
                     <Text style={[st.dailyDate, st.todayText]}>오늘</Text>
@@ -201,7 +224,7 @@ const Weather = () => {
                     <Text style={st.dailyDegree}>30&deg; / 24&deg;</Text>
                 </View>
             </View>
-        </ScrollView>
+        </Animated.ScrollView>
 
 
         <ScrollView horizontal={true}
@@ -459,7 +482,7 @@ const st = StyleSheet.create({
         marginTop:10,
         borderRadius:10,
         overflow: 'hidden',
-        elevation:3
+        elevation:3,
     },
     background:{
         flex:1,
@@ -543,6 +566,9 @@ const st = StyleSheet.create({
     },
 
     /** 일주일 날씨 **/
+    simpleWeeklyContainer:{
+        position:'absolute',
+    },
     simpleWeekly:{
         justifyContent:'space-evenly',
         marginVertical:20,
