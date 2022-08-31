@@ -1,44 +1,13 @@
 import React, {useRef, useEffect, useState} from 'react'
 import { ScrollView, View,  Image, ImageBackground, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
 import Text from './DefaultText'
-import axios from 'axios'
 
 
 const windowWidth = Dimensions.get('window').width;
 const dailyContainerWidth = (windowWidth - 20 * 4.5) / 4.5;
 
-let now = new Date();
-  const REACT_APP_API_KEY = 'kAQ2I%2FEj5gPadZwjV4AgwijIAjeDskDyWsY1YiTOBl%2B44SROzB9ltCq6d2%2FOWMjwHCjGcJHCg8fPSLiHFtyajA%3D%3D';
-  const url = 'http://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList';
 
-const Weather = () => {
-
-  const getWeather = async () => {
-    try{
-        await axios({
-            method:'get',
-            url: url,
-            params:{
-                serviceKey: REACT_APP_API_KEY,
-                dataCd: 'ASOS',
-                daeCd: 'DAY',
-                startDt: new Date(),
-                endDt: new Date(now.setDate(now.getDate() + 10)),
-                stnlds: 108
-            }
-        })
-        .then(response => {
-            console.log(response)
-        })
-    }catch(err){
-        console.log(err)
-    }
-  }
-  useEffect(()=> {
-    getWeather();
-  }, [])
-
-  
+const Weather = () => {  
 
   /**** floating animation ****/
   const verticalValue = useRef(new Animated.Value(0)).current;
@@ -599,6 +568,7 @@ const st = StyleSheet.create({
     /** 일주일 날씨 **/
     simpleWeeklyContainer:{
         position:'absolute',
+        marginHorizontal:1
     },
     simpleWeekly:{
         justifyContent:'space-evenly',
@@ -634,7 +604,8 @@ const st = StyleSheet.create({
         paddingHorizontal:10,
         backgroundColor:'#ffffff',
         borderRadius:20,
-        elevation:3
+        elevation:3,
+        marginHorizontal:1
     },
     hourlyContainer:{
         justifyContent:'center',
@@ -658,7 +629,8 @@ const st = StyleSheet.create({
         paddingHorizontal:25,
         backgroundColor:'#ffffff',
         borderRadius:20,
-        elevation:3
+        elevation:3,
+        marginHorizontal:1
     },
     dustBar:{
         width:10, 
@@ -699,7 +671,7 @@ const st = StyleSheet.create({
 
     /** 주간 날씨 **/
     weeklyWeatherContainer:{
-        marginBottom:20
+        marginBottom:20,
     },
     weeklyContainer:{
         backgroundColor:'#ffffff',
@@ -708,7 +680,10 @@ const st = StyleSheet.create({
         marginBottom:15,
         paddingHorizontal:15,
         justifyContent:'space-between',
-        alignItems:'center'
+        alignItems:'center',
+        marginHorizontal:1,
+        borderWidth:0.5,
+        borderColor:'#ededed'
     },
     weeklyDate:{
         fontSize:18,
