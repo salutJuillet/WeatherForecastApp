@@ -1,6 +1,8 @@
 import React, {useRef, useEffect, useState} from 'react'
 import { ScrollView, View,  Image, ImageBackground, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
 import Text from './DefaultText'
+// import { LineChart } from 'react-native-chart-kit';
+
 
 
 const windowWidth = Dimensions.get('window').width;
