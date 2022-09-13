@@ -1,6 +1,7 @@
 import React, {useRef, useEffect, useState} from 'react'
 import { ScrollView, View,  Image, ImageBackground, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
 import Text from './DefaultText'
+import axios from 'axios'
 // import { LineChart } from 'react-native-chart-kit';
 
 
@@ -10,6 +11,140 @@ const dailyContainerWidth = (windowWidth - 20 * 4.5) / 4.5;
 
 
 const Weather = () => {  
+
+  /**** 날씨 데이터 가져오기 ****/
+  const convertToTwoDigitNumber = (number) => {
+    if(number < 10){
+      return '0' + number;
+    }else{
+      return number
+    }
+  }
+  const convertBaseTime = (hour, minute) => {
+    if(minute < 0)
+        return convertToTwoDigitNumber(hour-1) + '30'
+    else if(minute >= 0 && minute < 30)
+        return convertToTwoDigitNumber(hour) + '00'
+  }
+  
+
+  const [today, setToday] = useState('');
+  const [endDay, setEndDay] = useState('');
+  const [currentHour, setCurrentHour] = useState('');
+  const [weekAfterHour, setWeekAfterHour] = useState('');
+  const [baseTime, setBaseTime] = useState('');
+  const getTime = () => {
+    let now = new Date().getTime() + 9*60*60*1000; //한국 시간 밀리세컨드
+
+    let krNow = new Date(now);
+    let currentYear = new Date(krNow).getFullYear();
+    let currentMonth = convertToTwoDigitNumber(new Date(krNow).getMonth() +1);
+    let currentDate = convertToTwoDigitNumber(new Date(krNow).getDate());
+    setCurrentHour(convertToTwoDigitNumber(new Date(krNow).getHours()));
+
+    let krNowPlusSevenDays = now + 7*24*60*60*1000;
+    let weekAfter = new Date(krNowPlusSevenDays);
+    let weekAfterYear = new Date(weekAfter).getFullYear();
+    let weekAfterMonth = convertToTwoDigitNumber(new Date(weekAfter).getMonth() +1);
+    let weekAfterDate = convertToTwoDigitNumber(new Date(weekAfter).getDate());
+    setWeekAfterHour(convertToTwoDigitNumber(new Date(weekAfter).getHours()));
+
+    setToday(`${currentYear}${currentMonth}${currentDate}`);
+    setEndDay(`${weekAfterYear}${weekAfterMonth}${weekAfterDate}`);
+
+    setBaseTime(
+      convertBaseTime(new Date(krNow).getHours(), new Date(krNow).getMinutes()-30)
+    );
+  }
+
+  const [ultraShortForecast, setUltraShortForecast] = useState([]);
+  const [shortForecast, setShortForecast] = useState([]);
+
+  const REACT_APP_API_KEY = decodeURIComponent('kAQ2I%2FEj5gPadZwjV4AgwijIAjeDskDyWsY1YiTOBl%2B44SROzB9ltCq6d2%2FOWMjwHCjGcJHCg8fPSLiHFtyajA%3D%3D');
+  const dailyUrl = 'http://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList';
+  const hourlyUrl = 'http://apis.data.go.kr/1360000/AsosHourlyInfoService/getWthrDataList';
+  const ultraShortForecastUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst';
+  const shortForecastUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
+  const midLandForecastUrl = 'http://apis.data.go.kr/1360000/MidFcstInfoService/getMidLandFcst';
+
+  const getUltraShortForecast = async () => {
+    try{
+      await axios({
+        method: 'get',
+        url: ultraShortForecastUrl,
+        params:{
+          serviceKey: REACT_APP_API_KEY,
+          numOfRows: 60,
+          pageNo: 1,
+          dataType: 'JSON',
+          base_date: today,
+          base_time: baseTime,
+          nx: 55,
+          ny: 128
+        }
+      })
+      .then(response => {
+        setUltraShortForecast(response.data.response.body.items.item);
+      })
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  const getShortForecast = async () => {
+    try{
+      await axios({
+        method: 'get',
+        url: shortForecastUrl,
+        params:{
+          serviceKey: REACT_APP_API_KEY,
+          numOfRows: 2000,
+          pageNo: 4,
+          dataType: 'JSON',
+          base_date: today,
+          base_time: baseTime,
+          nx: 55,
+          ny: 128
+        }
+      })
+      .then(response => {
+        setShortForecast(response.data.response.body.items.item);
+      })
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  // const getMidLandForecast = async () => {
+  //   try{
+  //     await axios({
+  //       method: 'get',
+  //       url: midLandForecastUrl,
+  //       params:{
+  //         serviceKey: REACT_APP_API_KEY,
+  //         numOfRows: 10,
+  //         pageNo: 1,
+  //         dataType: 'JSON',
+  //         regId: '11B00000',
+  //         tmFc: '202209010600'
+  //       }
+  //     })
+  //     .then(response => {
+  //       console.log(response);
+  //       setForecast(response);
+  //     })
+  //   }catch(err){
+  //     console.log(err);
+  //   }
+  // }
+
+  useEffect(()=> {
+    getTime();
+    getUltraShortForecast();
+    getShortForecast();
+    // getMidLandForecast();
+  }, [])
+
 
   /**** floating animation ****/
   const verticalValue = useRef(new Animated.Value(0)).current;
@@ -114,15 +249,14 @@ const Weather = () => {
 //   }
   
 
-
+console.log(ultraShortForecast[24]);
   return (
     <ScrollView style={st.container}
                 onMomentumScrollEnd={(e)=>{
                         console.log(e.nativeEvent.contentOffset.y);
                     }       
                 }
-                onScroll={(e)=>{moveScroll(e)}}
-                >
+                onScroll={(e)=>{moveScroll(e)}}>
         <View style={st.borderRadius}>
             <ImageBackground source={require('../assets/images/bg_d_cloudy.jpg')}
                             style={st.background}>
@@ -141,7 +275,9 @@ const Weather = () => {
                             resizeMode="contain" />
                     </View>
                     <View style={st.row}>
-                        <Text style={[st.temperature, st.textShadow]}>28</Text>
+                        <Text style={[st.temperature, st.textShadow]}>
+                            {ultraShortForecast[24].fcstValue}
+                        </Text>
                         <Text style={[st.degree, st.textShadow]}>&deg;</Text>
                     </View>
                     
