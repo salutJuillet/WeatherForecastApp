@@ -32,11 +32,19 @@ export default function App() {
       return number
     }
   }
+  const convertBaseTime = (hour, minute) => {
+    if(minute < 0)
+        return convertToTwoDigitNumber(hour-1) + '30'
+    else if(minute >= 0 && minute < 30)
+        return convertToTwoDigitNumber(hour) + '00'
+  }
+  
 
   const [today, setToday] = useState('');
   const [endDay, setEndDay] = useState('');
   const [currentHour, setCurrentHour] = useState('');
-  const [weekAfterHour, setWeekAfterHour] = useState('')
+  const [weekAfterHour, setWeekAfterHour] = useState('');
+  const [baseTime, setBaseTime] = useState('');
   const getTime = () => {
     let now = new Date().getTime() + 9*60*60*1000; //한국 시간 밀리세컨드
 
@@ -55,11 +63,17 @@ export default function App() {
 
     setToday(`${currentYear}${currentMonth}${currentDate}`);
     setEndDay(`${weekAfterYear}${weekAfterMonth}${weekAfterDate}`);
+
+    setBaseTime(
+      convertBaseTime(new Date(krNow).getHours(), new Date(krNow).getMinutes()-30)
+    );
   }
 
-  const [forecast, setForecast] = useState(null);
+  const [ultraShortForecast, setUltraShortForecast] = useState([]);
+  const [shortForecast, setShortForecast] = useState([]);
+
   const REACT_APP_API_KEY = decodeURIComponent('kAQ2I%2FEj5gPadZwjV4AgwijIAjeDskDyWsY1YiTOBl%2B44SROzB9ltCq6d2%2FOWMjwHCjGcJHCg8fPSLiHFtyajA%3D%3D');
-  const dailyRrl = 'http://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList';
+  const dailyUrl = 'http://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList';
   const hourlyUrl = 'http://apis.data.go.kr/1360000/AsosHourlyInfoService/getWthrDataList';
   const ultraShortForecastUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst';
   const shortForecastUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
@@ -76,14 +90,13 @@ export default function App() {
           pageNo: 1,
           dataType: 'JSON',
           base_date: today,
-          base_time: '0500',
+          base_time: baseTime,
           nx: 55,
           ny: 128
         }
       })
       .then(response => {
-        console.log(response);
-        // setForecast(response);
+        setUltraShortForecast(response.data.response.body.items.item);
       })
     }catch(err){
       console.log(err);
@@ -101,14 +114,13 @@ export default function App() {
           pageNo: 4,
           dataType: 'JSON',
           base_date: today,
-          base_time: '0500',
+          base_time: baseTime,
           nx: 55,
           ny: 128
         }
       })
       .then(response => {
-        console.log(response);
-        // setForecast(response);
+        setShortForecast(response.data.response.body.items.item);
       })
     }catch(err){
       console.log(err);
@@ -142,16 +154,17 @@ export default function App() {
     getFonts();
     setIsFontReady(true);
     getTime();
-    // getUltraShortForecast();
-    // getShortForecast();
+    getUltraShortForecast();
+    getShortForecast();
     // getMidLandForecast();
   }, [])
+
 
   return (
       <SafeAreaProvider>
         <SafeAreaView edges={['bottom']} style={st.container}>
           {
-            isFontReady && forecast ? (
+            isFontReady && ultraShortForecast ? (
               <View style={{flex: 1}}>
                   <TopStatusBar />
                   <Weather />
