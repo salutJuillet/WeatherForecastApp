@@ -65,7 +65,7 @@ const Weather = () => {
   const hourlyUrl = 'http://apis.data.go.kr/1360000/AsosHourlyInfoService/getWthrDataList';
   const ultraShortForecastUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst';
   const shortForecastUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
-  const midLandForecastUrl = 'http://apis.data.go.kr/1360000/MidFcstInfoService/getMidLandFcst';
+//   const midLandForecastUrl = 'http://apis.data.go.kr/1360000/MidFcstInfoService/getMidLandFcst';
 
   const getUltraShortForecast = async () => {
     try{
@@ -248,8 +248,8 @@ const Weather = () => {
 //     }, [])
 //   }
   
+// console.log(ultraShortForecast);
 
-console.log(ultraShortForecast[24]);
   return (
     <ScrollView style={st.container}
                 onMomentumScrollEnd={(e)=>{
@@ -276,7 +276,7 @@ console.log(ultraShortForecast[24]);
                     </View>
                     <View style={st.row}>
                         <Text style={[st.temperature, st.textShadow]}>
-                            {ultraShortForecast[24].fcstValue}
+                            29
                         </Text>
                         <Text style={[st.degree, st.textShadow]}>&deg;</Text>
                     </View>
