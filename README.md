@@ -10,7 +10,8 @@
 
 <div align="center">
   <img src="assets/images/preview01.jpg" width="250px"/>  
-  <img src="assets/images/preview02.jpg" width="250px"/>
+  <img src="assets/images/preview02.jpg" width="250px"/> <br/>
+  <a href="https://youtu.be/J0QTY8a802A" target="_blank">https://youtu.be/J0QTY8a802A</a>
 </div>
 
 <br/>
